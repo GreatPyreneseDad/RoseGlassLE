@@ -165,6 +165,59 @@ class LensInterferenceAnalyzer:
 
         return max(readings, key=dimension_map[target_dimension])
 
+    def calculate_lens_deviation(self, readings: List[LensReading]) -> float:
+        """
+        Calculate standard deviation of pattern intensity across lenses.
+
+        This is equivalent to the Veritas distortion index D(P).
+        Low deviation (σ_lens → 0) = lens-invariant truth (universal)
+        High deviation (σ_lens → high) = context-dependent (cultural)
+
+        Args:
+            readings: List of LensReading objects
+
+        Returns:
+            Standard deviation of pattern intensity values
+        """
+        if len(readings) < 2:
+            return 0.0
+
+        intensities = [r.pattern_intensity for r in readings]
+        mean_intensity = sum(intensities) / len(intensities)
+        variance = sum((i - mean_intensity) ** 2 for i in intensities) / len(intensities)
+        std_dev = variance ** 0.5
+
+        return float(std_dev)
+
+    def should_reset_fibonacci(
+        self,
+        readings: List[LensReading],
+        invariance_threshold: float = 0.1
+    ) -> Tuple[bool, float]:
+        """
+        Determine if Fibonacci sequence should reset based on lens-invariant truth.
+
+        When lens deviation collapses below threshold, all cultural lenses agree
+        on the pattern interpretation. This signals translation-invariant truth -
+        a Jade structure that survives distortion across frames.
+
+        The Fibonacci spiral follows epistemological confidence, not just patterns.
+        Low distortion = truth stabilizes across frames = new origin point.
+
+        Args:
+            readings: List of LensReading objects
+            invariance_threshold: Deviation threshold (default 0.1)
+
+        Returns:
+            Tuple of (should_reset: bool, lens_deviation: float)
+        """
+        lens_deviation = self.calculate_lens_deviation(readings)
+
+        # If deviation below threshold, all lenses agree -> RESET
+        should_reset = lens_deviation < invariance_threshold
+
+        return should_reset, lens_deviation
+
 
 def test_lens_interference():
     """Test the lens interference analyzer"""

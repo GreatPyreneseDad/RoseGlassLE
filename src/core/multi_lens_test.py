@@ -26,8 +26,16 @@ class CulturalLens:
 
 class MultiLensRoseGlass:
     """Rose Glass that can switch between cultural lenses"""
-    
-    def __init__(self):
+
+    def __init__(self, invariance_threshold: float = 0.1):
+        """
+        Initialize multi-lens Rose Glass
+
+        Args:
+            invariance_threshold: Lens deviation threshold for truth invariance (default: 0.1)
+                                 Below this, patterns are lens-invariant (universal truth)
+        """
+        self.invariance_threshold = invariance_threshold
         self.lenses = {
             'modern_poetic': CulturalLens(
                 name="Modern Poetic",
@@ -123,6 +131,64 @@ class MultiLensRoseGlass:
             'translation': translation
         }
     
+    def calculate_lens_deviation(self, text: str) -> float:
+        """
+        Calculate standard deviation of pattern intensity across all cultural lenses.
+
+        Low deviation (σ_lens → 0) indicates lens-invariant truth:
+        the pattern reads the same across all cultural contexts.
+
+        High deviation (σ_lens → high) indicates context-dependence:
+        the pattern is interpreted differently by different cultures.
+
+        This implements the Veritas distortion index D(P) from Jade structure theory.
+
+        Args:
+            text: Text to analyze
+
+        Returns:
+            Standard deviation of pattern intensity values across all lenses
+        """
+        # Get pattern intensity through all lenses
+        intensities = []
+        for lens_name in self.lenses.keys():
+            result = self.view_through_lens(text, lens_name)
+            intensities.append(result['visibility'].pattern_intensity)
+
+        # Calculate standard deviation
+        if len(intensities) < 2:
+            return 0.0
+
+        mean_intensity = sum(intensities) / len(intensities)
+        variance = sum((i - mean_intensity) ** 2 for i in intensities) / len(intensities)
+        std_dev = variance ** 0.5
+
+        return std_dev
+
+    def should_reset_fibonacci(self, text: str) -> tuple:
+        """
+        Determine if Fibonacci sequence should reset based on lens-invariant truth detection.
+
+        Resets when lens deviation collapses to near-zero, indicating that
+        all cultural lenses agree on the pattern interpretation.
+        This signals translation-invariant truth - a Jade structure.
+
+        The Fibonacci spiral follows epistemological confidence, not just pattern detection.
+        Low distortion = truth stabilizes across frames = new origin point.
+
+        Args:
+            text: Text to analyze
+
+        Returns:
+            Tuple of (should_reset: bool, lens_deviation: float)
+        """
+        lens_deviation = self.calculate_lens_deviation(text)
+
+        # If deviation below threshold, all lenses agree -> universal truth -> RESET
+        should_reset = lens_deviation < self.invariance_threshold
+
+        return should_reset, lens_deviation
+
     def compare_all_lenses(self, text: str):
         """View text through all available lenses"""
         print("=" * 90)

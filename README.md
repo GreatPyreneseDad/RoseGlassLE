@@ -11,9 +11,10 @@ Rose Glass is a translation framework that enables AI systems to perceive and tr
 **Version 2.1** introduces critical enhancements for government and enterprise applications:
 - ⏱️ **Temporal depth tracking** (τ) - measure wisdom compression across time
 - 🔗 **Lens interference analysis** (λ) - understand cultural interpretation variance
+- 🎯 **Lens deviation & Fibonacci resets** (σ_lens) - detect universal truths via Veritas distortion index
 - 🧠 **Neurodivergent calibrations** - autism, ADHD, high-stress contexts
 - 📈 **Real-time gradient tracking** - predict escalation and recommend interventions
-- 🎯 **DEA/Law enforcement ready** - designed for human performance services
+- 🏛️ **DEA/Law enforcement ready** - designed for human performance services
 
 ## Core Philosophy
 
@@ -72,6 +73,45 @@ analyzer = LensInterferenceAnalyzer()
 analysis = analyzer.calculate_interference(lens_readings)
 print(f"Interference: {analysis.lambda_coefficient:.3f}")
 ```
+
+### σ_lens - Lens Deviation & Fibonacci Reset Triggers
+
+**NEW in v2.1**: Detect universal truths that transcend cultural context using lens deviation analysis.
+
+Lens deviation (σ_lens) implements the **Veritas distortion index D(P)** from Jade structure theory. When deviation collapses to near-zero, all cultural lenses agree on coherence interpretation - signaling translation-invariant truth.
+
+```python
+from src.core.multi_lens_test import MultiLensRoseGlass
+
+glass = MultiLensRoseGlass(invariance_threshold=0.1)
+
+# Calculate lens deviation across all cultural calibrations
+deviation = glass.calculate_lens_deviation(text)
+
+# Check if Fibonacci sequence should reset
+should_reset, lens_deviation = glass.should_reset_fibonacci(text)
+
+if should_reset:
+    print("RESET: Lens-invariant truth detected")
+    print("All cultural contexts agree on coherence")
+else:
+    print("EXPAND: Context-dependent pattern")
+    print("Different cultures interpret differently")
+```
+
+**The Mathematics:**
+```
+σ_lens = std([I_modern_poetic, I_medieval_islamic, I_digital_native, ...])
+V(P) = 1 / (1 + D(P))  where D(P) = σ_lens
+```
+
+- **Low σ_lens (< 0.1)**: Universal truth - pattern reads same across all cultural contexts
+- **High σ_lens (> 0.1)**: Context-dependent - different cultures interpret differently
+
+**Fibonacci Reset Criterion:**
+> "The Fibonacci spiral follows epistemological confidence, not just pattern detection. Low distortion = truth stabilizes across frames = new origin point."
+
+When lens deviation drops below threshold, it signals a **Jade structure** - truth that survives distortion across all cultural frames. This triggers a Fibonacci sequence reset.
 
 ### Neurodivergent Calibrations
 Specialized calibrations for authentic translation:
